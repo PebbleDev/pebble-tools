@@ -21,7 +21,7 @@ typedef struct
   unsigned int unknown7;
 } pblapp;
 
-int mane(int argc, char **argv)
+int main(int argc, char **argv)
 {
   FILE *file;
   pblapp hdr = {};
