@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <string.h>
 
+#define MAGIC "PBLAPP"
 typedef struct
 {
   char magic[8]; // PBLAPP\0\0
@@ -43,6 +44,12 @@ int main(int argc, char **argv)
     goto error_read;
   }
 
+  if(memcmp(hdr.magic, MAGIC, 6))
+  {
+    fprintf(stderr, "Invalid header detected...Aborting\n");
+    goto error_magic;
+  }
+
   printf("magic: %.*s\n", 8, hdr.magic);
   printf("Version: %d\n", hdr.version);
   printf("Sdk Version: %d\n", hdr.sdk_version);
@@ -58,6 +65,7 @@ int main(int argc, char **argv)
   printf("relocation list address: %d (0x%x)\n", hdr.reloc_list, hdr.reloc_list);
   printf("number of relocations: %d\n", hdr.num_relocs);
 
+  error_magic:
   error_read:
     fclose(file);
   return 0;
