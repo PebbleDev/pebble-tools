@@ -40,8 +40,8 @@ int main(int argc, char **argv)
 
   if ((fread(&hdr, sizeof(pblapp), 1, file)) != 1){
     fprintf(stderr, "Unable to parse file %s: %s\n", argv[1], strerror(errno));
+    goto error_read;
   }
-  fclose(file);
 
   printf("magic: %.*s\n", 8, hdr.magic);
   printf("Version: %d\n", hdr.version);
@@ -58,5 +58,7 @@ int main(int argc, char **argv)
   printf("unknown6: %d (0x%x)\n", hdr.unknown6, hdr.unknown6);
   printf("unknown7: %d\n", hdr.unknown7);
 
+  error_read:
+    fclose(file);
   return 0;
 };
