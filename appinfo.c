@@ -38,7 +38,9 @@ int main(int argc, char **argv)
     return 2;
   }
 
-  fread(&hdr, sizeof(pblapp), 1, file);
+  if ((fread(&hdr, sizeof(pblapp), 1, file)) != 1){
+    fprintf(stderr, "Unable to parse file %s: %s\n", argv[1], strerror(errno));
+  }
   fclose(file);
 
   printf("magic: %.*s\n", 8, hdr.magic);
